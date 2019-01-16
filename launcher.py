@@ -1,5 +1,31 @@
 from PySide2 import QtWidgets
-from ui import main, charCreate
+from ui import main, charCreate, test
+
+
+class Test(test.Ui_Dialog, QtWidgets.QDialog):
+    def __init__(self):
+        super(Test, self).__init__()
+        self.setupUi(self)
+
+    def open_file(self):
+        file_path = str(QtWidgets.QFileDialog.getOpenFileName(self, "Open Character", "", "Text Files (*.txt)")[0])
+
+        if file_path:
+            with open(file_path, 'r') as file:
+                lines = file.readlines()
+                print(lines)
+                for line in lines:
+                    self.label_1.setText(lines[0])
+                    self.label_2.setText(lines[1])
+                    self.label_3.setText(lines[2])
+                    self.label_4.setText(lines[3])
+                    self.label_5.setText(lines[4])
+                    self.label_6.setText(lines[5])
+                    self.label_7.setText(lines[6])
+                    self.label_8.setText(lines[7])
+                    self.label_9.setText(lines[8])
+            file.close()
+        self.show()
 
 
 class CharCreate(charCreate.Ui_Dialog, QtWidgets.QDialog):
@@ -20,7 +46,7 @@ class CharCreate(charCreate.Ui_Dialog, QtWidgets.QDialog):
                      self.spinBox_3.text() + '\n',
                      self.spinBox_4.text() + '\n',
                      self.spinBox_5.text() + '\n',
-                     self.spinBox_6.text()]
+                     self.spinBox_6.text() + '\n']
             file.writelines(lines)
             file.close()
         self.close()
@@ -34,19 +60,13 @@ class SheetsQtApp(main.Ui_MainWindow, QtWidgets.QMainWindow):
         self.pushButton.clicked.connect(self.open_file)
 
         self.popChar_Create = CharCreate()
+        self.popSheet = Test()
 
     def launch_char_creation(self):
         self.popChar_Create.show()
 
     def open_file(self):
-        file_path = str(QtWidgets.QFileDialog.getOpenFileName(self, "Open Character", "", "Text Files (*.txt)")[0])
-
-        if file_path:
-            with open(file_path, 'r') as file:
-                lines = file.readlines()
-                for line in lines:
-                    data = line.split(",")
-                    print(data)
+        self.popSheet.open_file()
 
 
 if __name__ == "__main__":
