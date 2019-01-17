@@ -1,0 +1,10 @@
+Derek
+Elf
+Bard
+20
+15
+6
+19
+5
+2
+chars/Derek_inv.txt
